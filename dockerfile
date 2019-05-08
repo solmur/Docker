@@ -28,6 +28,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         wget \
         git \
         vim \
+        openssh-server \
         && \
 
     $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
@@ -83,3 +84,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get clean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* ~/*
+
+# ssh
+RUN mkdir /var/run/sshd
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
