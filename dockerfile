@@ -73,7 +73,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ------------------------------------------------------------------
 
     $PIP_INSTALL \
-        tensorflow-gpu==2.0.0-alpha0 \
+        tensorflow-gpu==2.0.0-beta0 \
         && \
 
 # ==================================================================
