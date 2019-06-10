@@ -1,2 +1,2 @@
-# Docker-tensorflow2.0-alpha
-This is a dockfile for tensorflow2.0-alpha
+# Docker-tensorflow2.0
+This is a dockfile for tensorflow2.0
