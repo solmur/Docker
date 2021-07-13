@@ -1,0 +1,107 @@
+# ==================================================================
+# module list
+# ------------------------------------------------------------------
+# python        3.6    
+# tensorflow    1.14
+# pytorch       0.4.1
+# ==================================================================
+
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+ENV LANG C.UTF-8
+RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
+    PIP_INSTALL="python -m pip --no-cache-dir install --upgrade" && \
+    GIT_CLONE="git clone --depth 10" && \
+
+    rm -rf /var/lib/apt/lists/* \
+           /etc/apt/sources.list.d/cuda.list \
+           /etc/apt/sources.list.d/nvidia-ml.list && \
+
+    apt-get update && \
+
+# ==================================================================
+# tools
+# ------------------------------------------------------------------
+
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        build-essential \
+        apt-utils \
+        ca-certificates \
+        wget \
+        git \
+        vim \
+        openssh-server \
+        && \
+
+    $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
+    cd ~/cmake && \
+    ./bootstrap && \
+    make -j"$(nproc)" install && \
+
+# ==================================================================
+# python
+# ------------------------------------------------------------------
+
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        software-properties-common \
+        && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        python3.6 \
+        python3.6-dev \
+        python3-distutils-extra \
+        python3-pyqt5
+        && \
+    wget -O ~/get-pip.py \
+        https://bootstrap.pypa.io/get-pip.py && \
+    python3.6 ~/get-pip.py && \
+    ln -s /usr/bin/python3.6 /usr/local/bin/python3 && \
+    ln -s /usr/bin/python3.6 /usr/local/bin/python && \
+    $PIP_INSTALL \
+        setuptools \
+        && \
+    $PIP_INSTALL \
+        numpy \
+        scipy \
+        pandas \
+        cloudpickle \
+        scikit-learn \
+        matplotlib \
+        Cython \
+        ete3 \
+        pytest \
+        tensorflow-gpu=1.14 \
+        tensorboardX \
+        torch==0.4.1 \
+        torchvision==0.2.1 \
+        gym==0.10.5 \
+        seaborn \
+        attrs==19.1.0 \
+        box2d-py \
+        gym[Box_2D] \
+        gym[all] \
+        comet_ml \
+        && \
+        
+# ==================================================================
+# baselines
+# ------------------------------------------------------------------
+
+RUN git clone https://github.com/openai/baselines.git
+WORKDIR baselines
+RUN pip install -e .
+
+
+# ==================================================================
+# config & cleanup
+# ------------------------------------------------------------------
+
+    ldconfig && \
+    apt-get clean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/* /tmp/* ~/*
+
+# ssh
+RUN mkdir /var/run/sshd
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
