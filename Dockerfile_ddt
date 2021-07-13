@@ -71,7 +71,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         Cython \
         ete3 \
         pytest \
-        tensorflow-gpu=1.14 \
+        tensorflow-gpu==1.14 \
         tensorboardX \
         torch==0.4.1 \
         torchvision==0.2.1 \
