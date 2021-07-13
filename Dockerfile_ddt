@@ -91,9 +91,9 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # baselines
 # ------------------------------------------------------------------
 
-RUN git clone https://github.com/openai/baselines.git && \
-WORKDIR baselines && \
-RUN pip install -e . && \
+    git clone https://github.com/openai/baselines.git && \
+    cd baselines && \
+    pip install -e . && \
 
 
 # ==================================================================
