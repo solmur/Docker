@@ -31,6 +31,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         vim \
         openssh-server \
         libssl-dev \
+        parallel \
         && \
 
     $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
@@ -81,7 +82,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         attrs==19.1.0 \
         box2d-py \
         gym[Box_2D] \
-        gym[all] \
+ #       gym[all] \
         comet_ml \
         && \
         
