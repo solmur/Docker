@@ -50,7 +50,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         python3.6 \
         python3.6-dev \
         python3-distutils-extra \
-        python3-pyqt5
+        python3-pyqt5 \
         && \
     wget -O ~/get-pip.py \
         https://bootstrap.pypa.io/get-pip.py && \
@@ -87,9 +87,9 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # baselines
 # ------------------------------------------------------------------
 
-RUN git clone https://github.com/openai/baselines.git
-WORKDIR baselines
-RUN pip install -e .
+RUN git clone https://github.com/openai/baselines.git && \
+WORKDIR baselines && \
+RUN pip install -e . && \
 
 
 # ==================================================================
