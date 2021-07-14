@@ -85,6 +85,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         gym[Box_2D] \
  #       gym[all] \
         comet_ml \
+        pyqt5 \
         && \
         
 # ==================================================================
